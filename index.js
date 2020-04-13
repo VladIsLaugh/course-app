@@ -1,6 +1,9 @@
 const express = require('express')
 const path = require('path')
-const expressHandlebars = require('express-handlebars') 
+const expressHandlebars = require('express-handlebars')
+const homeRoutes = require('./routes/home') 
+const coursesRoutes = require('./routes/courses') 
+const addRoutes = require('./routes/add') 
 
 const app = express()
 
@@ -15,14 +18,11 @@ app.engine('hbs', hbs.engine) //register engine
 app.set('view engine', 'hbs') //start using
 app.set('views', 'views')
 
+app.use(express.static('public'))
 
-app.get('/', (req,res) =>{
-    res.render('index') 
-})
-
-app.get('/about', (req,res) =>{
-    res.render('about')
-})
+app.use(homeRoutes)
+app.use(coursesRoutes)
+app.use(addRoutes)
 
 app.listen(PORT, ()=>{
     console.log(`Server is running ${PORT}`);
